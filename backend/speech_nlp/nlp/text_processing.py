@@ -2,12 +2,15 @@ import spacy
 
 nlp = spacy.load("en_core_web_sm")
 
-def process_text(text):
-    doc = nlp(text)
-    keywords = []
+def process_text(text: str) -> str:
+    if not text:
+        return ""
 
-    for token in doc:
-        if not token.is_stop and not token.is_punct:
-            keywords.append(token.lemma_)
+    doc = nlp(text)
+    keywords = [
+        token.lemma_
+        for token in doc
+        if not token.is_stop and not token.is_punct
+    ]
 
     return " ".join(keywords)

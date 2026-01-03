@@ -6,13 +6,24 @@ from speech_nlp.nlp.text_processing import process_text
 
 
 def main():
-    print("🎤 Speak now...")
-    text = speech_to_text()
-    processed_text = process_text(text)
+    result = speech_to_text()
+
+    if not result["success"]:
+        print(json.dumps({
+            "module": "speech_nlp",
+            "success": False,
+            "error": result["error"],
+            "timestamp": datetime.now().isoformat()
+        }, indent=2))
+        return
+
+    raw_text = result["text"]
+    processed_text = process_text(raw_text)
 
     output = {
         "module": "speech_nlp",
-        "recognized_text": text,
+        "success": True,
+        "recognized_text": raw_text,
         "processed_text": processed_text,
         "timestamp": datetime.now().isoformat()
     }
