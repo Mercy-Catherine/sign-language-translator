@@ -1,5 +1,11 @@
-## Speech & NLP Module
+## Speech NLP Module
 
-- Real-time speech-to-text using SpeechRecognition
-- Text processed and sent to sign module
-- Run using: `python -m speech_nlp.main`
+### Features
+- Speech to text using microphone
+- NLP keyword extraction using spaCy
+- FastAPI based API
+
+### Run
+```bash
+conda activate signlang
+uvicorn speech_nlp.api:app --reload
