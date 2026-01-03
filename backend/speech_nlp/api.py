@@ -5,6 +5,10 @@ from datetime import datetime
 
 app = FastAPI()
 
+@app.get("/")
+def health():
+    return {"status": "Speech NLP service running"}
+
 @app.post("/speech")
 def speech_endpoint():
     result = speech_to_text()
@@ -21,9 +25,11 @@ def speech_endpoint():
     processed_text = process_text(raw_text)
 
     return {
-        "module": "speech_nlp",
-        "success": True,
-        "recognized_text": raw_text,
-        "processed_text": processed_text,
-        "timestamp": datetime.utcnow().isoformat()
+    "module": "speech_nlp",
+    "success": True,
+    "recognized_text": raw_text,
+    "processed_text": processed_text,
+    "sign_tokens": [],   # 👈 placeholder for person 3
+    "timestamp": datetime.utcnow().isoformat()
     }
+
