@@ -1,14 +1,33 @@
 import speech_recognition as sr
 
-def speech_to_text():
-    r = sr.Recognizer()
+
+def speech_to_text(audio_file_path=None):
+    """
+    Converts speech to text.
+    - If audio_file_path is provided → reads audio from file
+    - Else → listens from microphone
+    """
+
+    recognizer = sr.Recognizer()
 
     try:
-        with sr.Microphone() as source:
-            r.adjust_for_ambient_noise(source, duration=0.5)
-            audio = r.listen(source, timeout=5, phrase_time_limit=8)
+        # -------- AUDIO FILE INPUT (from video) --------
+        if audio_file_path:
+            with sr.AudioFile(audio_file_path) as source:
+                audio = recognizer.record(source)
 
-        text = r.recognize_google(audio)
+        # -------- MICROPHONE INPUT --------
+        else:
+            with sr.Microphone() as source:
+                recognizer.adjust_for_ambient_noise(source, duration=0.5)
+                audio = recognizer.listen(
+                    source,
+                    timeout=5,
+                    phrase_time_limit=8
+                )
+
+        text = recognizer.recognize_google(audio)
+
         return {
             "success": True,
             "text": text,
@@ -33,7 +52,7 @@ def speech_to_text():
         return {
             "success": False,
             "text": "",
-            "error": f"Speech API error: {str(e)}"
+            "error": f"Speech recognition service error: {str(e)}"
         }
 
     except Exception as e:
