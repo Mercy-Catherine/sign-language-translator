@@ -22,3 +22,21 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+
+# Environments
+.env
+.venv
+env/
+
+# OS
+.DS_Store
+
+# Generated audio files
+temp_audio.wav
+output_audio.wav
+
